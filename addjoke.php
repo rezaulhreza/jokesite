@@ -1,12 +1,15 @@
 <?php
 
 
+require './templates/connect.php';
+
+
 //import the template
 require './functions/loadtemplate.php';
 
 if (isset($_POST['joketext'])) {
 
-	require './templates/connect.php';
+
 
 
 	$date = new DateTime();
