@@ -10,7 +10,7 @@ require './functions/loadtemplate.php';
 
 //set the title
 
-$title='Home';
+$title='Home Page';
 
 //implement the template to the html
 
