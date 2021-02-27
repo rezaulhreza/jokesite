@@ -7,12 +7,14 @@ require './functions/loadtemplate.php';
 $sql = $pdo->prepare('SELECT * FROM joke');
 $sql->execute();
 
+$jokes=$sql->fetchAll();
+
 $title = 'Joke list';
 
 
 //template variable name
 $templatevars=[
-'sql'=> $sql
+'jokes'=> $jokes
 
 ];
 
