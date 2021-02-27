@@ -6,38 +6,31 @@ require './templates/connect.php';
 //import the template
 require './functions/loadtemplate.php';
 
-$id = $_GET['id'];
+
+if(isset($_POST['joketext'])){
+
+$sql=$pdo->prepare('UPDATE joke SET joketext=:joketext WHERE id=:id');
 
 
+$sql->execute(['joketext'=>$_POST['joketext'],'id'=>$_POST['id']]);
 
-$sql = $pdo->prepare("SELECT * FROM joke WHERE `id` = ?");
+header('location:jokes.php');
+} else{
 
-$sql->execute([$id]);
+    $title='Edit Joke';
 
-$results = $sql->fetch();
 
-if (isset($_POST['joketext'])) {
-    $joke = $_POST['joketext'];
+    $sql=$pdo->prepare('SELECT * FROM joke WHERE id=:id');
+    $sql->execute(['id'=>$_GET['id']]);
 
-    $sql = $pdo->prepare("UPDATE `joke` SET `joketext`= ? WHERE `id` = ?");
-    $sql->execute([$joke, $id]);
-    $results = $sql->rowCount();
-    if (isset($results)) {
-        header('location:jokes.php');
-    }
-} else
+    $joke=$sql->fetch();
 
-{
-    
-    $title = 'Edit joke';
-
-    $templatevars= [
-
-        'results'=>$results
-
+    $templatevars=[
+        'joke'=>$joke
     ];
-   
-    $output = loadTemplate('./templates/editjoke.html.php',$templatevars
-);
+
+    $output = loadTemplate('./templates/editjoke.html.php',$templatevars);
 }
+
+//get the layout
 require  './templates/layout.html.php';
